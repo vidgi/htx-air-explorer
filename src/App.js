@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.css'
+import { BrowserRouter as Router } from 'react-router-dom'
+import { AnimatePresence } from 'framer-motion'
+import { ScrollToTop, Navigation } from './components'
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 
-function App() {
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: "'Montserrat', sans-serif"
+  },
+
+  palette: {
+    background: {
+      default: '#F3F3F3'
+    },
+    text: {
+      primary: '#54758c',
+      secondary: '#a9a9a9'
+    }
+  }
+})
+
+function App () {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <ThemeProvider theme={theme}>
+      <div className='App'>
+        <Router>
+          <ScrollToTop />
+          <AnimatePresence>
+            <Navigation />
+          </AnimatePresence>
+        </Router>
+      </div>
+    </ThemeProvider>
+  )
 }
 
-export default App;
+export default App
