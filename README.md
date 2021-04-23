@@ -1,9 +1,9 @@
 # htx air explorer
-## Visualizing Air Quality in Texas
+## visualizing air quality in houston, texas
 ![htxae-preview](https://user-images.githubusercontent.com/28833281/115839228-0d88c100-a3e0-11eb-8b02-201f817429af.png)
 
 ### Domain Description
-Texas is the largest state for chemical manufacturing and energy production in the nation
+Houston is the hub of chemical manufacturing and energy production in the nation
 with many refineries and chemical facilities which are under regulation to comply with air
 quality laws. To monitor the air quality and potential emissions across the state, the Texas
 Commission on Environmental Quality's (TCEQ) has automated gas chromatograph (AutoGC)
@@ -21,7 +21,7 @@ limited technical knowledge about emissions and environmental compliance.
 
 ### Brief overview of the dataset
 My core dataset is from the Kinder Urban Data Portal which is a collection of data from TCEQ
-monitoring sites. The data format is a .csv file that spans data from 24 years (1997-2020) with >50 compounds. I plan to potentially extend the dataset with EPA AirNow data from their API and compliance data from TCEQ to understand where citations have occurred in the state. I
+monitoring sites. The data format is a .csv file that spans data from 24 years (1997-2020) with >50 compounds. I plan to potentially extend the dataset with EPA AirNow data from their API and compliance data from TCEQ to understand where citations have occurred. I
 could also compare with national emissions levels/averages.
 
 ### Dataset Sources
