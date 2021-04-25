@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Typography, Card, CardContent, Grid } from '@material-ui/core'
 import { motion } from 'framer-motion'
 import { makeStyles } from '@material-ui/core/styles'
 import { SiteDropdown, CompoundDropdown, DateSelector } from './'
 import moment from 'moment'
-import Papa from 'papaparse'
+import { readRemoteFile } from 'react-papaparse'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -62,20 +62,29 @@ function MapOverview () {
   )
   const [toDateValue, setToDateValue] = React.useState(new Date('2020-10-01'))
 
-  const [rows, setRows] = React.useState([])
-  React.useEffect(() => {
+  const [rows, setRows] = useState([
+    {
+      compound_code: '',
+      date_time: '',
+      site_code: '',
+      value: ''
+    }
+  ])
+  useEffect(() => {
     async function getData () {
-      const response = await fetch('./dfHouston2020.csv')
-      const reader = response.body.getReader()
-      const result = await reader.read() // raw array
-      const decoder = new TextDecoder('utf-8')
-      const csv = decoder.decode(result.value) // the csv text
-      const results = Papa.parse(csv, { header: true }) // object with { data, errors, meta }
-      const rows = results.data // array of objects
-      setRows(rows)
+      try {
+        readRemoteFile('./dfHouston2020.csv', {
+          header: true,
+          complete: results => {
+            console.log('Results:', results)
+            setRows(results.data) // array of objects
+          }
+        })
+      } catch {
+        console.log('error')
+      }
     }
     getData()
-    // console.log(rows[0].compound_code)
   }, []) // [] means just do this once, after initial render
 
   return (
@@ -161,11 +170,6 @@ function MapOverview () {
               <div>{rows[0].site_code}</div>
               <div>{rows[0].compound_code}</div>
               <div>{rows[0].date_time}</div>
-              <div>
-                {moment(rows[0].date_time.replace(':', ' ')).format(
-                  'MMMM Do YYYY h a'
-                )}
-              </div>
               <div>{rows[0].value}</div>
             </CardContent>
           </Card>
