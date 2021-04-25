@@ -108,7 +108,7 @@ function Navigation (props) {
           </ListItemIcon>
           <ListItemText primary={'map overview'} />
         </ListItem>
-        <ListItem
+        {/* <ListItem
           button
           key={'site analyzer'}
           component={Link}
@@ -139,7 +139,7 @@ function Navigation (props) {
             <CompoundIcon />
           </ListItemIcon>
           <ListItemText primary={'compound lookup'} />
-        </ListItem>
+        </ListItem> */}
       </List>
     </div>
   )
