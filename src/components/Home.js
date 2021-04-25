@@ -67,7 +67,7 @@ function Home () {
                 </Typography>
               </div>
               <div className={classes.content}>
-                <Typography variant='body' color='textPrimary'>
+                <Typography variant='body1' color='textPrimary'>
                   exploring houston air quality + emissions
                 </Typography>
                 <br></br>

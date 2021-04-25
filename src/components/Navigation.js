@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import AppBar from '@material-ui/core/AppBar'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Drawer from '@material-ui/core/Drawer'
@@ -21,6 +21,7 @@ import { Link, withRouter } from 'react-router-dom'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import { Home, MapOverview, SiteAnalyzer, CompoundLookup } from './'
+import { readRemoteFile } from 'react-papaparse'
 
 const drawerWidth = 240
 
@@ -108,7 +109,7 @@ function Navigation (props) {
           </ListItemIcon>
           <ListItemText primary={'map overview'} />
         </ListItem>
-        {/* <ListItem
+        <ListItem
           button
           key={'site analyzer'}
           component={Link}
@@ -139,13 +140,38 @@ function Navigation (props) {
             <CompoundIcon />
           </ListItemIcon>
           <ListItemText primary={'compound lookup'} />
-        </ListItem> */}
+        </ListItem>
       </List>
     </div>
   )
 
   const container =
     window !== undefined ? () => window().document.body : undefined
+
+  const [rows, setRows] = useState([
+    {
+      compound_code: '',
+      date_time: '',
+      site_code: '',
+      value: ''
+    }
+  ])
+  useEffect(() => {
+    async function getData () {
+      try {
+        readRemoteFile('./dfHouston2020.csv', {
+          header: true,
+          complete: results => {
+            // console.log('Results:', results)
+            setRows(results.data) // array of objects
+          }
+        })
+      } catch {
+        // console.log('error')
+      }
+    }
+    getData()
+  }, []) // [] means just do this once, after initial render
 
   return (
     <div className={classes.root}>
@@ -166,6 +192,8 @@ function Navigation (props) {
             <MenuIcon />
           </IconButton>{' '}
           <Typography variant='h5' noWrap>
+            <LogoIcon />
+
             {props.location.pathname.replace(/-/g, ' ').replace(/\//g, ' ')}
           </Typography>
         </Toolbar>
@@ -207,17 +235,17 @@ function Navigation (props) {
             <Route
               path='/map-overview'
               exact
-              component={() => <MapOverview />}
+              component={() => <MapOverview rows={rows} />}
             />
             <Route
               path='/site-analyzer'
               exact
-              component={() => <SiteAnalyzer />}
+              component={() => <SiteAnalyzer rows={rows} />}
             />
             <Route
               path='/compound-lookup'
               exact
-              component={() => <CompoundLookup />}
+              component={() => <CompoundLookup rows={rows} />}
             />
           </Switch>
         </div>

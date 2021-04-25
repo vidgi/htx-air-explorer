@@ -1,8 +1,9 @@
-import React from 'react'
-import { Typography, Card, CardContent, Grid } from '@material-ui/core'
+import React, { useState } from 'react'
+import { Card, CardContent, Grid } from '@material-ui/core'
 import { motion } from 'framer-motion'
 import { makeStyles } from '@material-ui/core/styles'
-import { SiteDropdown, CompoundDropdown } from './'
+import { SiteDropdown, CompoundDropdown, DateSelector } from './'
+import moment from 'moment'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -22,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-function SiteAnalyzer () {
+function SiteAnalyzer (props) {
   const classes = useStyles()
   const pageVariants = {
     initial: {
@@ -53,6 +54,11 @@ function SiteAnalyzer () {
     }
   }
 
+  const [siteValue, setSiteValue] = useState('')
+  const [compoundValue, setCompoundValue] = useState('')
+  const [fromDateValue, setFromDateValue] = useState(new Date('2020-01-02'))
+  const [toDateValue, setToDateValue] = useState(new Date('2020-10-01'))
+
   return (
     <div className={classes.root}>
       <motion.div
@@ -68,31 +74,58 @@ function SiteAnalyzer () {
           exit='out'
           variants={pageVariants}
         >
+          {/* <div>
+            <Typography component='h5' variant='h5'>
+              Historical Site Analyzer
+            </Typography>
+          </div> */}
           <Grid
             container
             direction='row'
             alignItems='center'
             alignContent='center'
-            justify='left'
+            justify='center'
             className={classes.selectors}
             spacing={2}
           >
             <Grid item>
-              <Typography component='h5' variant='h5'>
-                Historical Site Analyzer
-              </Typography>
+              <SiteDropdown value={siteValue} onChange={setSiteValue} />
+            </Grid>
+            <Grid item>
+              <CompoundDropdown
+                value={compoundValue}
+                onChange={setCompoundValue}
+              />
             </Grid>
 
             <Grid item>
-              <SiteDropdown />
+              From
+              <DateSelector
+                minDate={new Date('2020-01-02')}
+                maxDate={new Date('2020-10-01')}
+                value={fromDateValue}
+                onChange={setFromDateValue}
+              />
             </Grid>
             <Grid item>
-              <CompoundDropdown />
+              To
+              <DateSelector
+                minDate={new Date('2020-01-02')}
+                maxDate={new Date('2020-10-01')}
+                value={toDateValue}
+                onChange={setToDateValue}
+              />
             </Grid>
           </Grid>
 
           <Card className={classes.card}>
-            <CardContent className={classes.content}>Hi</CardContent>
+            <CardContent className={classes.content}>
+              <div>From: {moment(fromDateValue).format('MMMM Do YYYY')}</div>
+              <div>To: {moment(toDateValue).format('MMMM Do YYYY')}</div>
+              <br></br>
+              <div>Site: {siteValue}</div>
+              <div>Compound: {compoundValue}</div>
+            </CardContent>
           </Card>
         </motion.div>
       </motion.div>

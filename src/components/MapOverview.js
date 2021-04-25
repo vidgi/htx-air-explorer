@@ -1,17 +1,12 @@
-import React, { useState, useEffect } from 'react'
-import { Typography, Card, CardContent, Grid } from '@material-ui/core'
+import React, { useState } from 'react'
+import { Card, CardContent, Grid } from '@material-ui/core'
 import { motion } from 'framer-motion'
 import { makeStyles } from '@material-ui/core/styles'
 import { SiteDropdown, CompoundDropdown, DateSelector } from './'
 import moment from 'moment'
-import { readRemoteFile } from 'react-papaparse'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    // display: 'flex',
-    // flexDirection: 'row',
-    // float: 'left',
-    // flexGrow: 1,
     padding: theme.spacing(2)
   },
   selectors: {},
@@ -24,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-function MapOverview () {
+function MapOverview (props) {
   const classes = useStyles()
   const pageVariants = {
     initial: {
@@ -55,37 +50,10 @@ function MapOverview () {
     }
   }
 
-  const [siteValue, setSiteValue] = React.useState('')
-  const [compoundValue, setCompoundValue] = React.useState('')
-  const [fromDateValue, setFromDateValue] = React.useState(
-    new Date('2020-01-02')
-  )
-  const [toDateValue, setToDateValue] = React.useState(new Date('2020-10-01'))
-
-  const [rows, setRows] = useState([
-    {
-      compound_code: '',
-      date_time: '',
-      site_code: '',
-      value: ''
-    }
-  ])
-  useEffect(() => {
-    async function getData () {
-      try {
-        readRemoteFile('./dfHouston2020.csv', {
-          header: true,
-          complete: results => {
-            console.log('Results:', results)
-            setRows(results.data) // array of objects
-          }
-        })
-      } catch {
-        console.log('error')
-      }
-    }
-    getData()
-  }, []) // [] means just do this once, after initial render
+  const [siteValue, setSiteValue] = useState('')
+  const [compoundValue, setCompoundValue] = useState('')
+  const [fromDateValue, setFromDateValue] = useState(new Date('2020-01-02'))
+  const [toDateValue, setToDateValue] = useState(new Date('2020-10-01'))
 
   return (
     <div className={classes.root}>
@@ -102,11 +70,11 @@ function MapOverview () {
           exit='out'
           variants={pageVariants}
         >
-          <div>
+          {/* <div>
             <Typography component='h5' variant='h5'>
               Summary View of Houston Air Monitoring Sites
             </Typography>
-          </div>
+          </div> */}
           <Grid
             container
             direction='row'
@@ -125,16 +93,7 @@ function MapOverview () {
                 onChange={setCompoundValue}
               />
             </Grid>
-          </Grid>
-          <Grid
-            container
-            direction='row'
-            alignItems='center'
-            alignContent='center'
-            justify='center'
-            className={classes.selectors}
-            spacing={2}
-          >
+
             <Grid item>
               From
               <DateSelector
@@ -167,10 +126,10 @@ function MapOverview () {
                   'MMMM Do YYYY h a'
                 )}
               </div>
-              <div>{rows[0].site_code}</div>
-              <div>{rows[0].compound_code}</div>
-              <div>{rows[0].date_time}</div>
-              <div>{rows[0].value}</div>
+              <div>{props.rows[0].site_code}</div>
+              <div>{props.rows[0].compound_code}</div>
+              <div>{props.rows[0].date_time}</div>
+              <div>{props.rows[0].value}</div>
             </CardContent>
           </Card>
         </motion.div>

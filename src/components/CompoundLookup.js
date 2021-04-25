@@ -1,5 +1,5 @@
-import React from 'react'
-import { Typography, Card, CardContent, Grid } from '@material-ui/core'
+import React, { useState } from 'react'
+import { Card, CardContent, Grid } from '@material-ui/core'
 import { motion } from 'framer-motion'
 import { makeStyles } from '@material-ui/core/styles'
 import { CompoundDropdown } from './'
@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-function CompoundLookup () {
+function CompoundLookup (props) {
   const classes = useStyles()
   const pageVariants = {
     initial: {
@@ -53,6 +53,8 @@ function CompoundLookup () {
     }
   }
 
+  const [compoundValue, setCompoundValue] = useState('')
+
   return (
     <div className={classes.root}>
       <motion.div
@@ -73,22 +75,26 @@ function CompoundLookup () {
             direction='row'
             alignItems='center'
             alignContent='center'
-            justify='left'
             className={classes.selectors}
             spacing={2}
           >
-            <Grid item>
+            {/* <Grid item>
               <Typography component='h5' variant='h5'>
                 Chemical Compound Lookup
               </Typography>
-            </Grid>
+            </Grid> */}
             <Grid item>
-              <CompoundDropdown />
+              <CompoundDropdown
+                value={compoundValue}
+                onChange={setCompoundValue}
+              />{' '}
             </Grid>
           </Grid>
 
           <Card className={classes.card}>
-            <CardContent className={classes.content}>Hi</CardContent>
+            <CardContent className={classes.content}>
+              <div>Compound: {compoundValue}</div>
+            </CardContent>
           </Card>
         </motion.div>
       </motion.div>
