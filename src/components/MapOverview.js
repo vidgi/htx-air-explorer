@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { makeStyles } from '@material-ui/core/styles'
 import { SiteDropdown, CompoundDropdown, DateSelector } from './'
 import moment from 'moment'
+import Papa from 'papaparse'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -54,32 +55,28 @@ function MapOverview () {
     }
   }
 
-  // function getCsvData (csvString) {
-  //   const results = readString(csvString, { header: true })
-  // }
-
-  // function handleOnDrop (data) {
-  //   console.log('---------------------------')
-  //   console.log(data)
-  //   console.log('---------------------------')
-  // }
-
-  // function handleOnError (err, file, inputElem, reason) {
-  //   console.log(err)
-  // }
-
-  // function handleOnRemoveFile (data) {
-  //   console.log('---------------------------')
-  //   console.log(data)
-  //   console.log('---------------------------')
-  // }
-
   const [siteValue, setSiteValue] = React.useState('')
   const [compoundValue, setCompoundValue] = React.useState('')
   const [fromDateValue, setFromDateValue] = React.useState(
     new Date('2020-01-02')
   )
   const [toDateValue, setToDateValue] = React.useState(new Date('2020-10-01'))
+
+  const [rows, setRows] = React.useState([])
+  React.useEffect(() => {
+    async function getData () {
+      const response = await fetch('./dfHouston2020.csv')
+      const reader = response.body.getReader()
+      const result = await reader.read() // raw array
+      const decoder = new TextDecoder('utf-8')
+      const csv = decoder.decode(result.value) // the csv text
+      const results = Papa.parse(csv, { header: true }) // object with { data, errors, meta }
+      const rows = results.data // array of objects
+      setRows(rows)
+    }
+    getData()
+    // console.log(rows[0].compound_code)
+  }, []) // [] means just do this once, after initial render
 
   return (
     <div className={classes.root}>
@@ -161,6 +158,15 @@ function MapOverview () {
                   'MMMM Do YYYY h a'
                 )}
               </div>
+              <div>{rows[0].site_code}</div>
+              <div>{rows[0].compound_code}</div>
+              <div>{rows[0].date_time}</div>
+              <div>
+                {moment(rows[0].date_time.replace(':', ' ')).format(
+                  'MMMM Do YYYY h a'
+                )}
+              </div>
+              <div>{rows[0].value}</div>
             </CardContent>
           </Card>
         </motion.div>
