@@ -9,6 +9,8 @@ import {
   DataTableDisplay
 } from './'
 import moment from 'moment'
+import { siteData } from './siteData'
+import { compoundData } from './compoundData'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -63,7 +65,47 @@ function DataViewer (props) {
   const [compoundValue, setCompoundValue] = useState('')
   const [fromDateValue, setFromDateValue] = useState(new Date('2020-01-02'))
   const [toDateValue, setToDateValue] = useState(new Date('2020-10-01'))
+  const [filteredData, setFilteredData] = useState([
+    {
+      compound_code: '',
+      date_time: '',
+      site_code: '',
+      value: ''
+    }
+  ])
 
+  function handleSiteChange (newSiteValue) {
+    setSiteValue(newSiteValue)
+    // console.log(
+    //   props.rows.filter(function (item) {
+    //     return item.site_code === '482010617'
+    //   })
+    // )
+  }
+
+  function handleCompoundChange (newCompoundValue) {
+    setCompoundValue(newCompoundValue)
+    if (newCompoundValue !== '') {
+      var val = newCompoundValue
+      var index = compoundData.findIndex(function (item, i) {
+        return item.compound_name === val
+      })
+      var compoundCode = compoundData[index].compound_code
+      var newFiltered = props.rows.filter(function (item) {
+        return item.compound_code === compoundCode
+      })
+      setFilteredData(newFiltered)
+    } else {
+      setFilteredData([
+        {
+          compound_code: '',
+          date_time: '',
+          site_code: '',
+          value: ''
+        }
+      ])
+    }
+  }
   return (
     <div className={classes.root}>
       <motion.div
@@ -79,11 +121,6 @@ function DataViewer (props) {
           exit='out'
           variants={pageVariants}
         >
-          {/* <div>
-            <Typography component='h5' variant='h5'>
-              Historical Site Analyzer
-            </Typography>
-          </div> */}
           <Grid
             container
             direction='row'
@@ -94,12 +131,12 @@ function DataViewer (props) {
             spacing={2}
           >
             <Grid item>
-              <SiteDropdown value={siteValue} onChange={setSiteValue} />
+              <SiteDropdown value={siteValue} onChange={handleSiteChange} />
             </Grid>
             <Grid item>
               <CompoundDropdown
                 value={compoundValue}
-                onChange={setCompoundValue}
+                onChange={handleCompoundChange}
               />
             </Grid>
 
@@ -125,49 +162,23 @@ function DataViewer (props) {
 
           <Card className={classes.card}>
             <CardContent className={classes.content}>
-              <div>From: {moment(fromDateValue).format('MMMM Do YYYY')}</div>
-              <div>To: {moment(toDateValue).format('MMMM Do YYYY')}</div>
-              <br></br>
-              <div>Site: {siteValue}</div>
-              <div>Compound: {compoundValue}</div>
+              <div>hi</div>
             </CardContent>
           </Card>
           <br></br>
           <DataTableDisplay
-            rows={[
-              props.rows[0],
-              props.rows[1],
-              props.rows[2],
-              props.rows[3],
-              props.rows[4],
-              props.rows[5],
-              props.rows[6],
-              props.rows[7],
-              props.rows[8],
-              props.rows[9],
-              props.rows[10],
-              props.rows[11],
-              props.rows[12],
-              props.rows[13],
-              props.rows[14],
-              props.rows[15],
-              props.rows[16],
-              props.rows[17],
-              props.rows[18],
-              props.rows[19],
-              props.rows[20],
-              props.rows[21],
-              props.rows[22],
-              props.rows[23],
-              props.rows[24],
-              props.rows[25],
-              props.rows[26],
-              props.rows[27],
-              props.rows[28],
-              props.rows[29]
-            ]}
+            title={
+              siteValue +
+              ' - ' +
+              compoundValue +
+              ' (' +
+              moment(fromDateValue).format('l') +
+              ' - ' +
+              moment(toDateValue).format('l') +
+              ')'
+            }
+            rows={filteredData}
           />
-          {/* <DataTableDisplay rows={props.rows} /> */}
         </motion.div>
       </motion.div>
     </div>

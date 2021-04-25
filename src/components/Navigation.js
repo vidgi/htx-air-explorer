@@ -176,7 +176,7 @@ function Navigation (props) {
   useEffect(() => {
     async function getData () {
       try {
-        readRemoteFile('./dfHouston2020.csv', {
+        readRemoteFile('./dfHouston2020new.csv', {
           header: true,
           complete: results => {
             // console.log('Results:', results)

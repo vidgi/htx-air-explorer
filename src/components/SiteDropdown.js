@@ -11,7 +11,11 @@ export default function SiteDropdown (props) {
     <div>
       <Autocomplete
         onChange={(event, value, reason) => {
-          props.onChange(value.Site_Name)
+          try {
+            props.onChange(value.Site_Name)
+          } catch (exception_var) {
+            props.onChange('')
+          }
         }}
         style={{ width: 300 }}
         options={siteData}

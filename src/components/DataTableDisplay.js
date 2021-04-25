@@ -9,9 +9,9 @@ export default function DataTableDisplay (props) {
     { name: 'value', label: 'Value' }
   ]
   const options = {
-    selectableRows: false,
-    rowsPerPage: 10,
-    responsive: 'stacked'
+    // selectableRows: false,
+    rowsPerPage: 10
+    // responsive: 'stacked'
   }
 
   return (
@@ -19,7 +19,7 @@ export default function DataTableDisplay (props) {
       <MUIDataTable
         columns={columns}
         data={props.rows}
-        title='AutoGC Data'
+        title={props.title}
         options={options}
       />
     </div>

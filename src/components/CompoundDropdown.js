@@ -11,7 +11,11 @@ export default function CompoundDropdown (props) {
     <div>
       <Autocomplete
         onChange={(event, value, reason) => {
-          props.onChange(value.compound_name)
+          try {
+            props.onChange(value.compound_name)
+          } catch (exception_var) {
+            props.onChange('')
+          }
         }}
         style={{ width: 300 }}
         options={compoundData}
