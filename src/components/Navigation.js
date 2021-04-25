@@ -7,6 +7,7 @@ import IconButton from '@material-ui/core/IconButton'
 import LogoIcon from '@material-ui/icons/Waves'
 import MapIcon from '@material-ui/icons/Explore'
 import AnalyzerIcon from '@material-ui/icons/Timeline'
+import DataIcon from '@material-ui/icons/Storage'
 import CompoundIcon from '@material-ui/icons/MenuBook'
 
 import List from '@material-ui/core/List'
@@ -20,7 +21,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { Link, withRouter } from 'react-router-dom'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
-import { Home, MapOverview, SiteAnalyzer, CompoundLookup } from './'
+import { Home, MapOverview, SiteAnalyzer, CompoundLookup, DataViewer } from './'
 import { readRemoteFile } from 'react-papaparse'
 
 const drawerWidth = 240
@@ -124,6 +125,22 @@ function Navigation (props) {
             <AnalyzerIcon />
           </ListItemIcon>
           <ListItemText primary={'site analyzer'} />
+        </ListItem>
+        <ListItem
+          button
+          key={'data viewer'}
+          component={Link}
+          to={'/data-viewer'}
+          selected={
+            props.location.pathname === '/data-viewer'
+              ? selectedIndex === 1
+              : selectedIndex === 0
+          }
+        >
+          <ListItemIcon>
+            <DataIcon />
+          </ListItemIcon>
+          <ListItemText primary={'data viewer'} />
         </ListItem>
         <ListItem
           button
@@ -241,6 +258,11 @@ function Navigation (props) {
               path='/site-analyzer'
               exact
               component={() => <SiteAnalyzer rows={rows} />}
+            />
+            <Route
+              path='/data-viewer'
+              exact
+              component={() => <DataViewer rows={rows} />}
             />
             <Route
               path='/compound-lookup'
