@@ -65,14 +65,7 @@ function DataViewer (props) {
   const [compoundValue, setCompoundValue] = useState('')
   const [fromDateValue, setFromDateValue] = useState(new Date('2020-01-01'))
   const [toDateValue, setToDateValue] = useState(new Date('2020-10-01'))
-  const [filteredData, setFilteredData] = useState([
-    {
-      compound_code: '',
-      date_time: '',
-      site_code: '',
-      value: ''
-    }
-  ])
+  const [filteredData, setFilteredData] = useState('')
 
   function checkIfInDateRange (dateStringToCheck, fromDate, toDate) {
     // Date string is in the csvdate format (not moment)
@@ -85,6 +78,22 @@ function DataViewer (props) {
       '[]'
     )
     return check
+  }
+
+  function transformDataArray (dataArray, compoundValue, siteValue) {
+    var transformedData = []
+    dataArray.forEach(element => {
+      var newArray = {
+        compound_name: compoundValue,
+        site_name: siteValue,
+        date: moment(element.date_time.replace(':', ' ')).format('L'),
+        time: moment(element.date_time.replace(':', ' ')).format('hh:mm a'),
+        value: element.value
+      }
+
+      transformedData.push(newArray)
+    })
+    return transformedData
   }
 
   function filterData (
@@ -116,16 +125,19 @@ function DataViewer (props) {
           row.site_code === siteCode &&
           checkIfInDateRange(row.date_time, newFromDateValue, newToDateValue)
       )
-      setFilteredData(newFiltered)
+
+      var transformedData = transformDataArray(
+        newFiltered,
+        newCompoundValue,
+        newSiteValue
+      )
+      var arrayToString = JSON.stringify(Object.assign([], transformedData))
+      // console.log(filteredData)
+      transformedData = JSON.parse(arrayToString)
+      // console.log(transformedData)
+      setFilteredData(transformedData)
     } else {
-      setFilteredData([
-        {
-          compound_code: '',
-          date_time: '',
-          site_code: '',
-          value: ''
-        }
-      ])
+      setFilteredData('')
     }
   }
 
