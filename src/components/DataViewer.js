@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Card, CardContent, Grid } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 import { motion } from 'framer-motion'
 import { makeStyles } from '@material-ui/core/styles'
 import {
@@ -63,7 +63,7 @@ function DataViewer (props) {
 
   const [siteValue, setSiteValue] = useState('')
   const [compoundValue, setCompoundValue] = useState('')
-  const [fromDateValue, setFromDateValue] = useState(new Date('2020-01-02'))
+  const [fromDateValue, setFromDateValue] = useState(new Date('2020-01-01'))
   const [toDateValue, setToDateValue] = useState(new Date('2020-10-01'))
   const [filteredData, setFilteredData] = useState([
     {
@@ -74,26 +74,48 @@ function DataViewer (props) {
     }
   ])
 
-  function handleSiteChange (newSiteValue) {
-    setSiteValue(newSiteValue)
-    // console.log(
-    //   props.rows.filter(function (item) {
-    //     return item.site_code === '482010617'
-    //   })
-    // )
+  function checkIfInDateRange (dateStringToCheck, fromDate, toDate) {
+    // Date string is in the csvdate format (not moment)
+    // below, we are taking out that problematic colon and converting to moment
+    const dateToCheckMoment = moment(dateStringToCheck.replace(':', ' '))
+    const check = moment(dateToCheckMoment).isBetween(
+      fromDate,
+      toDate,
+      undefined,
+      '[]'
+    )
+    return check
   }
 
-  function handleCompoundChange (newCompoundValue) {
-    setCompoundValue(newCompoundValue)
-    if (newCompoundValue !== '') {
-      var val = newCompoundValue
-      var index = compoundData.findIndex(function (item, i) {
-        return item.compound_name === val
+  function filterData (
+    newCompoundValue,
+    newSiteValue,
+    newFromDateValue,
+    newToDateValue
+  ) {
+    if (
+      newCompoundValue !== '' &&
+      newSiteValue !== '' &&
+      newFromDateValue !== null &&
+      newToDateValue !== null
+    ) {
+      var compoundIndex = compoundData.findIndex(function (item, i) {
+        return item.compound_name === newCompoundValue
       })
-      var compoundCode = compoundData[index].compound_code
-      var newFiltered = props.rows.filter(function (item) {
-        return item.compound_code === compoundCode
+      var compoundCode = compoundData[compoundIndex].compound_code
+
+      var siteIndex = siteData.findIndex(function (item, i) {
+        return item.Site_Name === newSiteValue
       })
+
+      var siteCode = siteData[siteIndex].site_code
+
+      var newFiltered = props.rows.filter(
+        row =>
+          row.compound_code === compoundCode &&
+          row.site_code === siteCode &&
+          checkIfInDateRange(row.date_time, newFromDateValue, newToDateValue)
+      )
       setFilteredData(newFiltered)
     } else {
       setFilteredData([
@@ -106,6 +128,27 @@ function DataViewer (props) {
       ])
     }
   }
+
+  function handleSiteChange (newSiteValue) {
+    setSiteValue(newSiteValue)
+    filterData(compoundValue, newSiteValue, fromDateValue, toDateValue)
+  }
+
+  function handleCompoundChange (newCompoundValue) {
+    setCompoundValue(newCompoundValue)
+    filterData(newCompoundValue, siteValue, fromDateValue, toDateValue)
+  }
+
+  function handleFromDateChange (newFromDateValue) {
+    setFromDateValue(newFromDateValue)
+    filterData(compoundValue, siteValue, newFromDateValue, toDateValue)
+  }
+
+  function handleToDateChange (newToDateValue) {
+    setToDateValue(newToDateValue)
+    filterData(compoundValue, siteValue, fromDateValue, newToDateValue)
+  }
+
   return (
     <div className={classes.root}>
       <motion.div
@@ -143,28 +186,23 @@ function DataViewer (props) {
             <Grid item>
               From
               <DateSelector
-                minDate={new Date('2020-01-02')}
+                minDate={new Date('2020-01-01')}
                 maxDate={new Date('2020-10-01')}
                 value={fromDateValue}
-                onChange={setFromDateValue}
+                onChange={handleFromDateChange}
               />
             </Grid>
             <Grid item>
               To
               <DateSelector
-                minDate={new Date('2020-01-02')}
+                minDate={new Date('2020-01-01')}
                 maxDate={new Date('2020-10-01')}
                 value={toDateValue}
-                onChange={setToDateValue}
+                onChange={handleToDateChange}
               />
             </Grid>
           </Grid>
 
-          <Card className={classes.card}>
-            <CardContent className={classes.content}>
-              <div>hi</div>
-            </CardContent>
-          </Card>
           <br></br>
           <DataTableDisplay
             title={
