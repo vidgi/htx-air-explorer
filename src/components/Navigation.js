@@ -209,8 +209,7 @@ function Navigation (props) {
             <MenuIcon />
           </IconButton>{' '}
           <Typography variant='h5' noWrap>
-            <LogoIcon />
-
+            {/* <LogoIcon /> */}
             {props.location.pathname.replace(/-/g, ' ').replace(/\//g, ' ')}
           </Typography>
         </Toolbar>

@@ -1,9 +1,17 @@
 import React, { useState } from 'react'
-import { Card, CardContent, Grid } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 import { motion } from 'framer-motion'
 import { makeStyles } from '@material-ui/core/styles'
-import { SiteDropdown, CompoundDropdown, DateSelector } from './'
+import {
+  SiteDropdown,
+  CompoundDropdown,
+  DateSelector,
+  DataTableDisplay,
+  ChartDisplay
+} from './'
 import moment from 'moment'
+import { siteData } from './siteData'
+import { compoundData } from './compoundData'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -56,8 +64,129 @@ function SiteAnalyzer (props) {
 
   const [siteValue, setSiteValue] = useState('')
   const [compoundValue, setCompoundValue] = useState('')
-  const [fromDateValue, setFromDateValue] = useState(new Date('2020-01-02'))
+  const [fromDateValue, setFromDateValue] = useState(new Date('2020-01-01'))
   const [toDateValue, setToDateValue] = useState(new Date('2020-10-01'))
+  const [filteredData, setFilteredData] = useState('')
+  const [nivoData, setNivoData] = useState('')
+
+  function checkIfInDateRange (dateStringToCheck, fromDate, toDate) {
+    // Date string is in the csvdate format (not moment)
+    // below, we are taking out that problematic colon and converting to moment
+    const dateToCheckMoment = moment(dateStringToCheck.replace(':', ' '))
+    const check = moment(dateToCheckMoment).isBetween(
+      fromDate,
+      toDate,
+      undefined,
+      '[]'
+    )
+    return check
+  }
+
+  function transformDataArray (dataArray, compoundValue, siteValue) {
+    var transformedData = []
+    dataArray.forEach(element => {
+      var newArray = {
+        compound_name: compoundValue,
+        site_name: siteValue,
+        date: moment(element.date_time.replace(':', ' ')).format('L'),
+        time: moment(element.date_time.replace(':', ' ')).format('hh:mm a'),
+        value: element.value
+      }
+
+      transformedData.push(newArray)
+    })
+    return transformedData
+  }
+
+  function transformDataArrayForNivo (dataArray, compoundValue, siteValue) {
+    var transformedDataForNivo = []
+    dataArray.forEach(element => {
+      var newArray = {
+        x: moment(element.date_time.replace(':', ' ')).format(
+          'YYYY-MM-DD HH:mm'
+        ),
+        y: element.value
+      }
+
+      transformedDataForNivo.push(newArray)
+    })
+    var finalData = [{ id: 'data series', data: transformedDataForNivo }]
+    return finalData
+  }
+
+  function filterData (
+    newCompoundValue,
+    newSiteValue,
+    newFromDateValue,
+    newToDateValue
+  ) {
+    if (
+      newCompoundValue !== '' &&
+      newSiteValue !== '' &&
+      newFromDateValue !== null &&
+      newToDateValue !== null
+    ) {
+      var compoundIndex = compoundData.findIndex(function (item, i) {
+        return item.compound_name === newCompoundValue
+      })
+      var compoundCode = compoundData[compoundIndex].compound_code
+
+      var siteIndex = siteData.findIndex(function (item, i) {
+        return item.Site_Name === newSiteValue
+      })
+
+      var siteCode = siteData[siteIndex].site_code
+
+      var newFiltered = props.rows.filter(
+        row =>
+          row.compound_code === compoundCode &&
+          row.site_code === siteCode &&
+          checkIfInDateRange(row.date_time, newFromDateValue, newToDateValue)
+      )
+
+      var transformedData = transformDataArray(
+        newFiltered,
+        newCompoundValue,
+        newSiteValue
+      )
+      var transformedDataForNivo = transformDataArrayForNivo(
+        newFiltered,
+        newCompoundValue,
+        newSiteValue
+      )
+
+      var arrayToString = JSON.stringify(Object.assign([], transformedData))
+      // console.log(filteredData)
+      transformedData = JSON.parse(arrayToString)
+      // console.log(transformedData)
+      setNivoData(transformedDataForNivo)
+
+      setFilteredData(transformedData)
+    } else {
+      setFilteredData('')
+      setNivoData('')
+    }
+  }
+
+  function handleSiteChange (newSiteValue) {
+    setSiteValue(newSiteValue)
+    filterData(compoundValue, newSiteValue, fromDateValue, toDateValue)
+  }
+
+  function handleCompoundChange (newCompoundValue) {
+    setCompoundValue(newCompoundValue)
+    filterData(newCompoundValue, siteValue, fromDateValue, toDateValue)
+  }
+
+  function handleFromDateChange (newFromDateValue) {
+    setFromDateValue(newFromDateValue)
+    filterData(compoundValue, siteValue, newFromDateValue, toDateValue)
+  }
+
+  function handleToDateChange (newToDateValue) {
+    setToDateValue(newToDateValue)
+    filterData(compoundValue, siteValue, fromDateValue, newToDateValue)
+  }
 
   return (
     <div className={classes.root}>
@@ -74,11 +203,6 @@ function SiteAnalyzer (props) {
           exit='out'
           variants={pageVariants}
         >
-          {/* <div>
-            <Typography component='h5' variant='h5'>
-              Historical Site Analyzer
-            </Typography>
-          </div> */}
           <Grid
             container
             direction='row'
@@ -89,44 +213,63 @@ function SiteAnalyzer (props) {
             spacing={2}
           >
             <Grid item>
-              <SiteDropdown value={siteValue} onChange={setSiteValue} />
+              <SiteDropdown value={siteValue} onChange={handleSiteChange} />
             </Grid>
             <Grid item>
               <CompoundDropdown
                 value={compoundValue}
-                onChange={setCompoundValue}
+                onChange={handleCompoundChange}
               />
             </Grid>
 
             <Grid item>
               From
               <DateSelector
-                minDate={new Date('2020-01-02')}
+                minDate={new Date('2020-01-01')}
                 maxDate={new Date('2020-10-01')}
                 value={fromDateValue}
-                onChange={setFromDateValue}
+                onChange={handleFromDateChange}
               />
             </Grid>
             <Grid item>
               To
               <DateSelector
-                minDate={new Date('2020-01-02')}
+                minDate={new Date('2020-01-01')}
                 maxDate={new Date('2020-10-01')}
                 value={toDateValue}
-                onChange={setToDateValue}
+                onChange={handleToDateChange}
               />
             </Grid>
           </Grid>
 
-          <Card className={classes.card}>
-            <CardContent className={classes.content}>
-              <div>From: {moment(fromDateValue).format('MMMM Do YYYY')}</div>
-              <div>To: {moment(toDateValue).format('MMMM Do YYYY')}</div>
-              <br></br>
-              <div>Site: {siteValue}</div>
-              <div>Compound: {compoundValue}</div>
-            </CardContent>
-          </Card>
+          <ChartDisplay
+            title={
+              siteValue +
+              ' - ' +
+              compoundValue +
+              ' (' +
+              moment(fromDateValue).format('l') +
+              ' - ' +
+              moment(toDateValue).format('l') +
+              ')'
+            }
+            data={nivoData}
+          />
+
+          <br></br>
+          <DataTableDisplay
+            title={
+              siteValue +
+              ' - ' +
+              compoundValue +
+              ' (' +
+              moment(fromDateValue).format('l') +
+              ' - ' +
+              moment(toDateValue).format('l') +
+              ')'
+            }
+            rows={filteredData}
+          />
         </motion.div>
       </motion.div>
     </div>
