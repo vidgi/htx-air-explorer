@@ -15,7 +15,7 @@ export default function DataTableDisplay (props) {
     { name: 'time', label: 'Time' },
     {
       name: 'value',
-      label: 'Value',
+      label: 'Measurement (ppb)',
       options: {
         customBodyRender: value => <span>{parseFloat(value).toFixed(3)}</span>
       }

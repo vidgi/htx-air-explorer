@@ -1,6 +1,6 @@
 import React from 'react'
 import { ResponsiveLine } from '@nivo/line'
-import { Card, CardContent, Grid } from '@material-ui/core'
+import { Card, CardContent } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
@@ -56,7 +56,7 @@ export default function ChartDisplay (props) {
                     tickPadding: 10,
                     tickRotation: 15,
                     format: '%m/%d/%Y',
-                    legend: 'datetime',
+                    legend: 'Date',
                     legendOffset: 50,
                     legendPosition: 'middle'
                   }}
@@ -65,7 +65,7 @@ export default function ChartDisplay (props) {
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    legend: 'value',
+                    legend: 'AutoGC Measurement (ppb)',
                     legendOffset: -40,
                     legendPosition: 'middle'
                   }}
