@@ -43,8 +43,8 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     flexGrow: 1,
-    paddingTop: theme.spacing(4)
-    // paddingBottom: theme.spacing(7)
+    paddingTop: theme.spacing(4),
+    padding: theme.spacing(2)
   }
 }))
 
@@ -159,10 +159,23 @@ function CompoundLookup (props) {
                   </Typography>
                   <br></br>
                   <Divider />
+                  {compoundDataArray.summary ? (
+                    <div>
+                      <br></br>
+                      {compoundDataArray.summary}
+                    </div>
+                  ) : (
+                    <div></div>
+                  )}
+
                   <br></br>
                   {compoundDataArray.lod_ppb_v ? (
                     <div>
-                      Level of Detection: {compoundDataArray.lod_ppb_v} ppb
+                      <Typography component='body1' variant='body1'>
+                        Level of Detection:
+                      </Typography>
+                      <br></br>
+                      {compoundDataArray.lod_ppb_v} ppb
                     </div>
                   ) : (
                     <div></div>
