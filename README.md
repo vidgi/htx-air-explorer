@@ -3,16 +3,15 @@
 
 ### Domain Description
 Houston is the hub of chemical manufacturing and energy production in the nation
-with many refineries and chemical facilities which are under regulation to comply with air
-quality laws. To monitor the air quality and potential emissions across the state, the Texas
-Commission on Environmental Quality's (TCEQ) has automated gas chromatograph (AutoGC)
-monitoring sites to monitor several compounds such as benzene, toluene, ethyl benzene,
-xylenes, and 1,3-butadiene. Additionally, these sites record meteorological data such as wind
-that can impact air quality and distribution of any emissions.
+with many refineries and chemical facilities. To monitor the air quality and potential
+emissions across the state, the Texas Commission on Environmental Quality's (TCEQ) has
+automated gas chromatograph (AutoGC) monitoring sites to monitor several compounds such
+as benzene, toluene, ethyl benzene, xylenes, and 1,3-butadiene. Additionally, these sites
+record meteorological data such as wind that can impact air quality and distribution of
+any emissions.
 
-However, to an ordinary citizen, these readings may be difficult to understand and any
-regulations can be difficult to understand. To address this, a visualization tool would be
-useful to visualize the measurements in comprehensible format to understand trends of concentrations
+Since the measurements may be difficult to interpret, a visualization tool is useful to
+visualize the measurements in comprehensible format to understand trends of concentrations
 over time and areas of high concentration of chemical compounds. 
 
 ### Brief overview of the dataset
