@@ -17,6 +17,7 @@ export default function SiteDropdown (props) {
             props.onChange('')
           }
         }}
+        inputValue={props.value}
         style={{ width: 300 }}
         options={siteData}
         getOptionLabel={option => option.Site_Name}

@@ -61,8 +61,8 @@ function DataViewer (props) {
     }
   }
 
-  const [siteValue, setSiteValue] = useState('')
-  const [compoundValue, setCompoundValue] = useState('')
+  const [siteValue, setSiteValue] = useState(props.siteValue)
+  const [compoundValue, setCompoundValue] = useState(props.compoundValue)
   const [fromDateValue, setFromDateValue] = useState(new Date('2020-01-01'))
   const [toDateValue, setToDateValue] = useState(new Date('2020-10-01'))
   const [filteredData, setFilteredData] = useState('')

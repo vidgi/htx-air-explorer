@@ -17,6 +17,7 @@ export default function CompoundDropdown (props) {
             props.onChange('')
           }
         }}
+        inputValue={props.value}
         style={{ width: 300 }}
         options={compoundData}
         getOptionLabel={option => option.compound_name}

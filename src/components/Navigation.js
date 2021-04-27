@@ -258,22 +258,26 @@ function Navigation (props) {
             <Route
               path='/site-overview'
               exact
-              component={() => <SiteOverview rows={rows} />}
+              component={() => <SiteOverview rows={rows} siteValue='' />}
             />
             <Route
               path='/site-analyzer'
               exact
-              component={() => <SiteAnalyzer rows={rows} />}
+              component={() => (
+                <SiteAnalyzer rows={rows} siteValue='' compoundValue='' />
+              )}
             />
             <Route
               path='/data-viewer'
               exact
-              component={() => <DataViewer rows={rows} />}
+              component={() => (
+                <DataViewer rows={rows} siteValue='' compoundValue='' />
+              )}
             />
             <Route
               path='/compound-lookup'
               exact
-              component={() => <CompoundLookup rows={rows} />}
+              component={() => <CompoundLookup rows={rows} compoundValue='' />}
             />
           </Switch>
         </div>

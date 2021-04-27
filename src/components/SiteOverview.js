@@ -52,7 +52,7 @@ function MapOverview (props) {
     }
   }
 
-  const [siteValue, setSiteValue] = useState('')
+  const [siteValue, setSiteValue] = useState(props.siteValue)
   const [siteDataArray, setSiteDataArray] = useState('')
 
   function getSiteData (newSiteValue) {

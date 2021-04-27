@@ -79,7 +79,7 @@ function CompoundLookup (props) {
     }
   }
 
-  const [compoundValue, setCompoundValue] = useState('')
+  const [compoundValue, setCompoundValue] = useState(props.compoundValue)
   const [compoundDataArray, setCompoundDataArray] = useState('')
   // const [pubChemData, setPubChemData] = useState('')
 
