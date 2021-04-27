@@ -168,58 +168,67 @@ function SiteAnalyzer (props) {
           exit='out'
           variants={pageVariants}
         >
-          <Grid
-            container
-            direction='row'
-            alignItems='center'
-            alignContent='center'
-            justify='center'
-            className={classes.selectors}
-            spacing={2}
-          >
-            <Grid item>
-              <SiteDropdown value={siteValue} onChange={handleSiteChange} />
-            </Grid>
-            <Grid item>
-              <CompoundDropdown
-                value={compoundValue}
-                onChange={handleCompoundChange}
-              />
-            </Grid>
+          {props.rows ? (
+            <div>
+              <Grid
+                container
+                direction='row'
+                alignItems='center'
+                alignContent='center'
+                justify='center'
+                className={classes.selectors}
+                spacing={2}
+              >
+                <Grid item>
+                  <SiteDropdown value={siteValue} onChange={handleSiteChange} />
+                </Grid>
+                <Grid item>
+                  <CompoundDropdown
+                    value={compoundValue}
+                    onChange={handleCompoundChange}
+                  />
+                </Grid>
 
-            <Grid item>
-              From
-              <DateSelector
-                minDate={new Date('2020-01-01')}
-                maxDate={new Date('2020-10-01')}
-                value={fromDateValue}
-                onChange={handleFromDateChange}
-              />
-            </Grid>
-            <Grid item>
-              To
-              <DateSelector
-                minDate={new Date('2020-01-01')}
-                maxDate={new Date('2020-10-01')}
-                value={toDateValue}
-                onChange={handleToDateChange}
-              />
-            </Grid>
-          </Grid>
+                <Grid item>
+                  From
+                  <DateSelector
+                    minDate={new Date('2020-01-01')}
+                    maxDate={new Date('2020-10-01')}
+                    value={fromDateValue}
+                    onChange={handleFromDateChange}
+                  />
+                </Grid>
+                <Grid item>
+                  To
+                  <DateSelector
+                    minDate={new Date('2020-01-01')}
+                    maxDate={new Date('2020-10-01')}
+                    value={toDateValue}
+                    onChange={handleToDateChange}
+                  />
+                </Grid>
+              </Grid>
 
-          <ChartDisplay
-            title={
-              siteValue +
-              ' - ' +
-              compoundValue +
-              ' (' +
-              moment(fromDateValue).format('l') +
-              ' - ' +
-              moment(toDateValue).format('l') +
-              ')'
-            }
-            data={nivoData}
-          />
+              <ChartDisplay
+                title={
+                  siteValue +
+                  ' - ' +
+                  compoundValue +
+                  ' (' +
+                  moment(fromDateValue).format('l') +
+                  ' - ' +
+                  moment(toDateValue).format('l') +
+                  ')'
+                }
+                data={nivoData}
+              />
+            </div>
+          ) : (
+            <div>
+              <img src='./loader.gif'></img>
+              <br></br>Loading data
+            </div>
+          )}
         </motion.div>
       </motion.div>
     </div>

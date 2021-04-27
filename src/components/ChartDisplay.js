@@ -34,6 +34,7 @@ export default function ChartDisplay (props) {
                 <ResponsiveLine
                   data={props.data}
                   curve='monotoneX'
+                  colors={{ scheme: 'set2' }}
                   margin={{ top: 50, right: 20, bottom: 60, left: 60 }}
                   xScale={{
                     type: 'time',

@@ -172,14 +172,7 @@ function Navigation (props) {
   const container =
     window !== undefined ? () => window().document.body : undefined
 
-  const [rows, setRows] = useState([
-    {
-      compound_code: '',
-      date_time: '',
-      site_code: '',
-      value: ''
-    }
-  ])
+  const [rows, setRows] = useState('')
   useEffect(() => {
     async function getData () {
       try {
@@ -254,7 +247,7 @@ function Navigation (props) {
       <main className={classes.content}>
         <div className={classes.toolbar}>
           <Switch>
-            <Route path='/' exact component={() => <Home />} />
+            <Route path='/' exact component={() => <Home rows={rows} />} />
             <Route
               path='/site-overview'
               exact

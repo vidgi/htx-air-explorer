@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Card, CardContent, Grid, Typography } from '@material-ui/core'
 import { motion } from 'framer-motion'
 import { makeStyles } from '@material-ui/core/styles'
-import { SiteDropdown } from './'
+import { SiteDropdown, MapComponent } from './'
 import moment from 'moment'
 import { siteData } from './siteData'
 
@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-function MapOverview (props) {
+function SiteOverview (props) {
   const classes = useStyles()
   const pageVariants = {
     initial: {
@@ -89,59 +89,77 @@ function MapOverview (props) {
           exit='out'
           variants={pageVariants}
         >
-          {/* <div>
-            <Typography component='h5' variant='h5'>
-              Summary View of Houston Air Monitoring Sites
-            </Typography>
-          </div> */}
-          <Grid
-            container
-            direction='row'
-            alignItems='center'
-            alignContent='center'
-            className={classes.selectors}
-            spacing={2}
-          >
-            <Grid item>
-              <SiteDropdown value={siteValue} onChange={handleSiteChange} />
-            </Grid>
-          </Grid>
-          <Card className={classes.card}>
-            <CardContent className={classes.content}>
-              {siteValue ? (
-                <div>
-                  <Typography component='h5' variant='h5'>
-                    <div>{siteDataArray.Site_Name}</div>
-                  </Typography>
+          {props.rows ? (
+            <div>
+              <Grid
+                container
+                direction='row'
+                alignItems='center'
+                alignContent='center'
+                className={classes.selectors}
+                spacing={2}
+              >
+                <Grid item>
+                  <SiteDropdown value={siteValue} onChange={handleSiteChange} />
+                </Grid>
+              </Grid>
 
-                  <div>
-                    ({siteDataArray.latitude}, {siteDataArray.longitude})
-                  </div>
-                  <br></br>
-                  <div>
-                    {siteDataArray.Street_Address}, {siteDataArray.City},{' '}
-                    {siteDataArray.State}
-                    <br></br>
-                    {siteDataArray.ZIP}, {siteDataArray.County} COUNTY
-                  </div>
-                  <br></br>
+              <Card className={classes.card}>
+                <CardContent className={classes.content}>
+                  {siteValue ? (
+                    <div>
+                      <Typography component='h5' variant='h5'>
+                        <div>{siteDataArray.Site_Name}</div>
+                      </Typography>
 
-                  <div>
-                    Activation Date:{' '}
-                    {moment(siteDataArray.Activation_Date).format('l')}
-                  </div>
-                  <div>Maintained By: {siteDataArray.Maintained_By}</div>
-                  <div>Owned by: {siteDataArray.Owned_By}</div>
-                </div>
-              ) : (
-                <div>Select a site to view information</div>
-              )}
-            </CardContent>
-          </Card>
+                      <div>
+                        ({siteDataArray.latitude}, {siteDataArray.longitude})
+                      </div>
+                      <br></br>
+                      <div>
+                        {siteDataArray.Street_Address}, {siteDataArray.City},{' '}
+                        {siteDataArray.State}
+                        <br></br>
+                        {siteDataArray.ZIP}, {siteDataArray.County} COUNTY
+                      </div>
+                      <br></br>
+
+                      <div>
+                        Activation Date:{' '}
+                        {moment(siteDataArray.Activation_Date).format('l')}
+                      </div>
+                      <div>Maintained By: {siteDataArray.Maintained_By}</div>
+                      <div>Owned by: {siteDataArray.Owned_By}</div>
+                      <div>
+                        <br></br>
+                        <MapComponent
+                          longitude={siteDataArray.longitude}
+                          latitude={siteDataArray.latitude}
+                        />
+                      </div>
+                    </div>
+                  ) : (
+                    <div>
+                      <div>Select a site to view information</div>
+                      {/* <br></br>
+                  {siteData.map((value, index) => (
+                    <div>{value.Site_Name}</div>
+                  ))} */}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+          ) : (
+            <div>
+              <img src='./loader.gif'></img>
+              <br></br>Loading data
+            </div>
+          )}
         </motion.div>
       </motion.div>
     </div>
   )
 }
 
-export default MapOverview
+export default SiteOverview

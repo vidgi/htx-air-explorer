@@ -129,161 +129,178 @@ function CompoundLookup (props) {
           exit='out'
           variants={pageVariants}
         >
-          <Grid
-            container
-            direction='row'
-            alignItems='center'
-            alignContent='center'
-            className={classes.selectors}
-            spacing={2}
-          >
-            {/* <Grid item>
+          {props.rows ? (
+            <div>
+              <Grid
+                container
+                direction='row'
+                alignItems='center'
+                alignContent='center'
+                className={classes.selectors}
+                spacing={2}
+              >
+                {/* <Grid item>
               <Typography component='h5' variant='h5'>
                 Chemical Compound Lookup
               </Typography>
             </Grid> */}
-            <Grid item>
-              <CompoundDropdown
-                value={compoundValue}
-                onChange={handleCompoundChange}
-              />{' '}
-            </Grid>
-          </Grid>
+                <Grid item>
+                  <CompoundDropdown
+                    value={compoundValue}
+                    onChange={handleCompoundChange}
+                  />{' '}
+                </Grid>
+              </Grid>
 
-          <Card className={classes.card}>
-            <CardContent className={classes.content}>
-              {compoundValue ? (
-                <div>
-                  <Typography component='h5' variant='h5'>
-                    {compoundValue}
-                  </Typography>
-                  <br></br>
-                  <Divider />
-                  {compoundDataArray.summary ? (
+              <Card className={classes.card}>
+                <CardContent className={classes.content}>
+                  {compoundValue ? (
                     <div>
-                      <br></br>
-                      {compoundDataArray.summary}
-                    </div>
-                  ) : (
-                    <div></div>
-                  )}
-
-                  <br></br>
-                  {compoundDataArray.lod_ppb_v ? (
-                    <div>
-                      <Typography component='body1' variant='body1'>
-                        Level of Detection:
+                      <Typography component='h5' variant='h5'>
+                        {compoundValue}
                       </Typography>
                       <br></br>
-                      {compoundDataArray.lod_ppb_v} ppb
+                      <Divider />
+                      {compoundDataArray.summary ? (
+                        <div>
+                          <br></br>
+                          {compoundDataArray.summary}
+                        </div>
+                      ) : (
+                        <div></div>
+                      )}
+
+                      <br></br>
+                      {compoundDataArray.lod_ppb_v ? (
+                        <div>
+                          <Typography component='body1' variant='body1'>
+                            Level of Detection:
+                          </Typography>
+                          <br></br>
+                          {compoundDataArray.lod_ppb_v} ppb
+                        </div>
+                      ) : (
+                        <div></div>
+                      )}
+
+                      {compoundDataArray.pubchem_cid ? (
+                        <div>
+                          <br></br>
+                          <Typography component='body1' variant='body1'>
+                            More information:
+                          </Typography>
+                          <br></br>
+
+                          <Button
+                            variant='contained'
+                            color='primary'
+                            href={
+                              'https://pubchem.ncbi.nlm.nih.gov/compound/' +
+                              compoundDataArray.pubchem_cid
+                            }
+                            target='_blank'
+                          >
+                            PubChem
+                          </Button>
+                          <br></br>
+                          <br></br>
+                          <Typography component='body1' variant='body1'>
+                            Chemical structure:
+                          </Typography>
+                          <br></br>
+                          <img
+                            src={
+                              'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/' +
+                              compoundDataArray.pubchem_cid +
+                              '/PNG'
+                            }
+                            alt='chemical structure'
+                          />
+                        </div>
+                      ) : (
+                        <div></div>
+                      )}
+
+                      {compoundDataArray.GHS ? (
+                        <div>
+                          <br></br>
+                          <Typography component='body1' variant='body1'>
+                            GHS hazard classification:
+                          </Typography>
+
+                          {compoundDataArray.GHS.includes('2') ? (
+                            <div>
+                              <img src={GHS02} alt='Flammable'></img> <br></br>
+                              Flammable
+                            </div>
+                          ) : (
+                            <div></div>
+                          )}
+                          {compoundDataArray.GHS.includes('4') ? (
+                            <div>
+                              <img src={GHS04} alt='Compressed Gas'></img>{' '}
+                              <br></br>
+                              Compressed Gas
+                            </div>
+                          ) : (
+                            <div></div>
+                          )}
+                          {compoundDataArray.GHS.includes('6') ? (
+                            <div>
+                              <img src={GHS06} alt='Acute Toxicity'></img>{' '}
+                              <br></br>
+                              Acute Toxicity
+                            </div>
+                          ) : (
+                            <div></div>
+                          )}
+                          {compoundDataArray.GHS.includes('7') ? (
+                            <div>
+                              <img src={GHS07} alt='Irritant'></img> <br></br>
+                              Irritant
+                            </div>
+                          ) : (
+                            <div></div>
+                          )}
+                          {compoundDataArray.GHS.includes('8') ? (
+                            <div>
+                              <img src={GHS08} alt='Health Hazard'></img>
+                              <br></br> Health Hazard
+                            </div>
+                          ) : (
+                            <div></div>
+                          )}
+                          {compoundDataArray.GHS.includes('9') ? (
+                            <div>
+                              <img src={GHS09} alt='Environmental Hazard'></img>
+                              <br></br> Environmental Hazard
+                            </div>
+                          ) : (
+                            <div></div>
+                          )}
+                        </div>
+                      ) : (
+                        <div>Select a compound to view information</div>
+                      )}
                     </div>
                   ) : (
-                    <div></div>
-                  )}
-
-                  {compoundDataArray.pubchem_cid ? (
                     <div>
-                      <br></br>
-                      <Typography component='body1' variant='body1'>
-                        More information:
-                      </Typography>
-                      <br></br>
-
-                      <Button
-                        variant='contained'
-                        color='primary'
-                        href={
-                          'https://pubchem.ncbi.nlm.nih.gov/compound/' +
-                          compoundDataArray.pubchem_cid
-                        }
-                        target='_blank'
-                      >
-                        PubChem
-                      </Button>
-                      <br></br>
-                      <br></br>
-                      <Typography component='body1' variant='body1'>
-                        Chemical structure:
-                      </Typography>
-                      <br></br>
-                      <img
-                        src={
-                          'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/' +
-                          compoundDataArray.pubchem_cid +
-                          '/PNG'
-                        }
-                        alt='chemical structure'
-                      />
+                      <div>Select a compound to view information</div>
+                      {/* <br></br>
+                  {compoundData.map((value, index) => (
+                    <div>{value.compound_name}</div>
+                  ))} */}
                     </div>
-                  ) : (
-                    <div></div>
                   )}
-
-                  {compoundDataArray.GHS ? (
-                    <div>
-                      <br></br>
-                      <Typography component='body1' variant='body1'>
-                        GHS hazard classification:
-                      </Typography>
-
-                      {compoundDataArray.GHS.includes('2') ? (
-                        <div>
-                          <img src={GHS02} alt='Flammable'></img> <br></br>
-                          Flammable
-                        </div>
-                      ) : (
-                        <div></div>
-                      )}
-                      {compoundDataArray.GHS.includes('4') ? (
-                        <div>
-                          <img src={GHS04} alt='Compressed Gas'></img> <br></br>
-                          Compressed Gas
-                        </div>
-                      ) : (
-                        <div></div>
-                      )}
-                      {compoundDataArray.GHS.includes('6') ? (
-                        <div>
-                          <img src={GHS06} alt='Acute Toxicity'></img> <br></br>
-                          Acute Toxicity
-                        </div>
-                      ) : (
-                        <div></div>
-                      )}
-                      {compoundDataArray.GHS.includes('7') ? (
-                        <div>
-                          <img src={GHS07} alt='Irritant'></img> <br></br>
-                          Irritant
-                        </div>
-                      ) : (
-                        <div></div>
-                      )}
-                      {compoundDataArray.GHS.includes('8') ? (
-                        <div>
-                          <img src={GHS08} alt='Health Hazard'></img>
-                          <br></br> Health Hazard
-                        </div>
-                      ) : (
-                        <div></div>
-                      )}
-                      {compoundDataArray.GHS.includes('9') ? (
-                        <div>
-                          <img src={GHS09} alt='Environmental Hazard'></img>
-                          <br></br> Environmental Hazard
-                        </div>
-                      ) : (
-                        <div></div>
-                      )}
-                    </div>
-                  ) : (
-                    <div>Select a compound to view information</div>
-                  )}
-                </div>
-              ) : (
-                <div>Select a compound to view information</div>
-              )}
-            </CardContent>
-          </Card>
+                </CardContent>
+              </Card>
+            </div>
+          ) : (
+            <div>
+              <img src='./loader.gif'></img>
+              <br></br>Loading data
+            </div>
+          )}
         </motion.div>
       </motion.div>
     </div>
