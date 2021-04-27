@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { Card, CardContent, Grid } from '@material-ui/core'
+import { Card, CardContent, Grid, Typography } from '@material-ui/core'
 import { motion } from 'framer-motion'
 import { makeStyles } from '@material-ui/core/styles'
-import { SiteDropdown, CompoundDropdown, DateSelector } from './'
+import { SiteDropdown } from './'
 import moment from 'moment'
+import { siteData } from './siteData'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -15,7 +16,8 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     flexGrow: 1,
-    paddingTop: theme.spacing(2)
+    paddingTop: theme.spacing(4),
+    padding: theme.spacing(2)
   }
 }))
 
@@ -51,9 +53,26 @@ function MapOverview (props) {
   }
 
   const [siteValue, setSiteValue] = useState('')
-  const [compoundValue, setCompoundValue] = useState('')
-  const [fromDateValue, setFromDateValue] = useState(new Date('2020-01-02'))
-  const [toDateValue, setToDateValue] = useState(new Date('2020-10-01'))
+  const [siteDataArray, setSiteDataArray] = useState('')
+
+  function getSiteData (newSiteValue) {
+    if (newSiteValue !== '') {
+      var siteIndex = siteData.findIndex(function (item, i) {
+        return item.Site_Name === newSiteValue
+      })
+
+      var dataArray = siteData[siteIndex]
+
+      setSiteDataArray(dataArray)
+    } else {
+      setSiteDataArray('')
+    }
+  }
+
+  function handleSiteChange (newSiteValue) {
+    setSiteValue(newSiteValue)
+    getSiteData(newSiteValue)
+  }
 
   return (
     <div className={classes.root}>
@@ -84,37 +103,39 @@ function MapOverview (props) {
             spacing={2}
           >
             <Grid item>
-              <SiteDropdown value={siteValue} onChange={setSiteValue} />
+              <SiteDropdown value={siteValue} onChange={handleSiteChange} />
             </Grid>
-            {/* <Grid item>
-              <CompoundDropdown
-                value={compoundValue}
-                onChange={setCompoundValue}
-              />
-            </Grid> */}
-
-            {/* <Grid item>
-              From
-              <DateSelector
-                minDate={new Date('2020-01-02')}
-                maxDate={new Date('2020-10-01')}
-                value={fromDateValue}
-                onChange={setFromDateValue}
-              />
-            </Grid>
-            <Grid item>
-              To
-              <DateSelector
-                minDate={new Date('2020-01-02')}
-                maxDate={new Date('2020-10-01')}
-                value={toDateValue}
-                onChange={setToDateValue}
-              />
-            </Grid> */}
           </Grid>
           <Card className={classes.card}>
             <CardContent className={classes.content}>
-              <div>hi</div>
+              {siteValue ? (
+                <div>
+                  <Typography component='h5' variant='h5'>
+                    <div>{siteDataArray.Site_Name}</div>
+                  </Typography>
+
+                  <div>
+                    ({siteDataArray.latitude}, {siteDataArray.longitude})
+                  </div>
+                  <br></br>
+                  <div>
+                    {siteDataArray.Street_Address}, {siteDataArray.City},{' '}
+                    {siteDataArray.State}
+                    <br></br>
+                    {siteDataArray.ZIP}, {siteDataArray.County} COUNTY
+                  </div>
+                  <br></br>
+
+                  <div>
+                    Activation Date:{' '}
+                    {moment(siteDataArray.Activation_Date).format('l')}
+                  </div>
+                  <div>Maintained By: {siteDataArray.Maintained_By}</div>
+                  <div>Owned by: {siteDataArray.Owned_By}</div>
+                </div>
+              ) : (
+                <div>Select a site to view information</div>
+              )}
             </CardContent>
           </Card>
         </motion.div>

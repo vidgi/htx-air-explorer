@@ -2,13 +2,7 @@ import React, { useState } from 'react'
 import { Grid } from '@material-ui/core'
 import { motion } from 'framer-motion'
 import { makeStyles } from '@material-ui/core/styles'
-import {
-  SiteDropdown,
-  CompoundDropdown,
-  DateSelector,
-  DataTableDisplay,
-  ChartDisplay
-} from './'
+import { SiteDropdown, CompoundDropdown, DateSelector, ChartDisplay } from './'
 import moment from 'moment'
 import { siteData } from './siteData'
 import { compoundData } from './compoundData'
@@ -66,7 +60,6 @@ function SiteAnalyzer (props) {
   const [compoundValue, setCompoundValue] = useState('')
   const [fromDateValue, setFromDateValue] = useState(new Date('2020-01-01'))
   const [toDateValue, setToDateValue] = useState(new Date('2020-10-01'))
-  const [filteredData, setFilteredData] = useState('')
   const [nivoData, setNivoData] = useState('')
 
   function checkIfInDateRange (dateStringToCheck, fromDate, toDate) {
@@ -80,22 +73,6 @@ function SiteAnalyzer (props) {
       '[]'
     )
     return check
-  }
-
-  function transformDataArray (dataArray, compoundValue, siteValue) {
-    var transformedData = []
-    dataArray.forEach(element => {
-      var newArray = {
-        compound_name: compoundValue,
-        site_name: siteValue,
-        date: moment(element.date_time.replace(':', ' ')).format('L'),
-        time: moment(element.date_time.replace(':', ' ')).format('hh:mm a'),
-        value: element.value
-      }
-
-      transformedData.push(newArray)
-    })
-    return transformedData
   }
 
   function transformDataArrayForNivo (dataArray, compoundValue, siteValue) {
@@ -144,26 +121,14 @@ function SiteAnalyzer (props) {
           checkIfInDateRange(row.date_time, newFromDateValue, newToDateValue)
       )
 
-      var transformedData = transformDataArray(
-        newFiltered,
-        newCompoundValue,
-        newSiteValue
-      )
       var transformedDataForNivo = transformDataArrayForNivo(
         newFiltered,
         newCompoundValue,
         newSiteValue
       )
 
-      var arrayToString = JSON.stringify(Object.assign([], transformedData))
-      // console.log(filteredData)
-      transformedData = JSON.parse(arrayToString)
-      // console.log(transformedData)
       setNivoData(transformedDataForNivo)
-
-      setFilteredData(transformedData)
     } else {
-      setFilteredData('')
       setNivoData('')
     }
   }
@@ -255,21 +220,6 @@ function SiteAnalyzer (props) {
             }
             data={nivoData}
           />
-
-          {/* <br></br>
-          <DataTableDisplay
-            title={
-              siteValue +
-              ' - ' +
-              compoundValue +
-              ' (' +
-              moment(fromDateValue).format('l') +
-              ' - ' +
-              moment(toDateValue).format('l') +
-              ')'
-            }
-            rows={filteredData}
-          /> */}
         </motion.div>
       </motion.div>
     </div>

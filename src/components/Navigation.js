@@ -5,7 +5,7 @@ import Drawer from '@material-ui/core/Drawer'
 import Hidden from '@material-ui/core/Hidden'
 import IconButton from '@material-ui/core/IconButton'
 import LogoIcon from '@material-ui/icons/Waves'
-import MapIcon from '@material-ui/icons/Explore'
+import SiteIcon from '@material-ui/icons/Place'
 import AnalyzerIcon from '@material-ui/icons/Timeline'
 import DataIcon from '@material-ui/icons/Storage'
 import CompoundIcon from '@material-ui/icons/MenuBook'
@@ -21,7 +21,13 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { Link, withRouter } from 'react-router-dom'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
-import { Home, MapOverview, SiteAnalyzer, CompoundLookup, DataViewer } from './'
+import {
+  Home,
+  SiteOverview,
+  SiteAnalyzer,
+  CompoundLookup,
+  DataViewer
+} from './'
 import { readRemoteFile } from 'react-papaparse'
 
 const drawerWidth = 240
@@ -94,22 +100,7 @@ function Navigation (props) {
           </ListItemIcon>
           <ListItemText primary={'htx air explorer'} />
         </ListItem>
-        <ListItem
-          button
-          key={'map overview'}
-          component={Link}
-          to={'/map-overview'}
-          selected={
-            props.location.pathname === '/map-overview'
-              ? selectedIndex === 1
-              : selectedIndex === 0
-          }
-        >
-          <ListItemIcon>
-            <MapIcon />
-          </ListItemIcon>
-          <ListItemText primary={'map overview'} />
-        </ListItem>
+
         <ListItem
           button
           key={'site analyzer'}
@@ -141,6 +132,22 @@ function Navigation (props) {
             <DataIcon />
           </ListItemIcon>
           <ListItemText primary={'data viewer'} />
+        </ListItem>
+        <ListItem
+          button
+          key={'site overview'}
+          component={Link}
+          to={'/site-overview'}
+          selected={
+            props.location.pathname === '/site-overview'
+              ? selectedIndex === 1
+              : selectedIndex === 0
+          }
+        >
+          <ListItemIcon>
+            <SiteIcon />
+          </ListItemIcon>
+          <ListItemText primary={'site overview'} />
         </ListItem>
         <ListItem
           button
@@ -249,9 +256,9 @@ function Navigation (props) {
           <Switch>
             <Route path='/' exact component={() => <Home />} />
             <Route
-              path='/map-overview'
+              path='/site-overview'
               exact
-              component={() => <MapOverview rows={rows} />}
+              component={() => <SiteOverview rows={rows} />}
             />
             <Route
               path='/site-analyzer'

@@ -1,5 +1,5 @@
 export { default as Home } from './Home'
-export { default as MapOverview } from './MapOverview'
+export { default as SiteOverview } from './SiteOverview'
 export { default as ScrollToTop } from './ScrollToTop'
 export { default as CompoundLookup } from './CompoundLookup'
 export { default as SiteAnalyzer } from './SiteAnalyzer'
