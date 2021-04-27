@@ -23,7 +23,7 @@ export default function CompoundDropdown (props) {
         renderInput={params => (
           <TextField
             {...params}
-            label='Select Chemical Compounds'
+            label='Select Chemical Compound'
             variant='outlined'
             margin='normal'
           />

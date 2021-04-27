@@ -23,7 +23,7 @@ export default function SiteDropdown (props) {
         renderInput={params => (
           <TextField
             {...params}
-            label='Select Air Monitoring Sites'
+            label='Select Air Monitoring Site'
             variant='outlined'
             margin='normal'
           />

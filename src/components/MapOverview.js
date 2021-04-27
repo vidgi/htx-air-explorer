@@ -80,21 +80,20 @@ function MapOverview (props) {
             direction='row'
             alignItems='center'
             alignContent='center'
-            justify='center'
             className={classes.selectors}
             spacing={2}
           >
             <Grid item>
               <SiteDropdown value={siteValue} onChange={setSiteValue} />
             </Grid>
-            <Grid item>
+            {/* <Grid item>
               <CompoundDropdown
                 value={compoundValue}
                 onChange={setCompoundValue}
               />
-            </Grid>
+            </Grid> */}
 
-            <Grid item>
+            {/* <Grid item>
               From
               <DateSelector
                 minDate={new Date('2020-01-02')}
@@ -111,25 +110,11 @@ function MapOverview (props) {
                 value={toDateValue}
                 onChange={setToDateValue}
               />
-            </Grid>
+            </Grid> */}
           </Grid>
           <Card className={classes.card}>
             <CardContent className={classes.content}>
-              <div>From: {moment(fromDateValue).format('MMMM Do YYYY')}</div>
-              <div>To: {moment(toDateValue).format('MMMM Do YYYY')}</div>
-              <br></br>
-              <div>Site: {siteValue}</div>
-              <div>Compound: {compoundValue}</div>
-              <br></br>
-              <div>
-                {moment('02JUL2020:17:00:00.000'.replace(':', ' ')).format(
-                  'MMMM Do YYYY h a'
-                )}
-              </div>
-              <div>{props.rows[0].site_code}</div>
-              <div>{props.rows[0].compound_code}</div>
-              <div>{props.rows[0].date_time}</div>
-              <div>{props.rows[0].value}</div>
+              <div>hi</div>
             </CardContent>
           </Card>
         </motion.div>

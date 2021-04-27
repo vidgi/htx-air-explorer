@@ -256,7 +256,7 @@ function SiteAnalyzer (props) {
             data={nivoData}
           />
 
-          <br></br>
+          {/* <br></br>
           <DataTableDisplay
             title={
               siteValue +
@@ -269,7 +269,7 @@ function SiteAnalyzer (props) {
               ')'
             }
             rows={filteredData}
-          />
+          /> */}
         </motion.div>
       </motion.div>
     </div>

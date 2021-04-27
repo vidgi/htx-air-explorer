@@ -82,11 +82,9 @@ export default function ChartDisplay (props) {
           </CardContent>
         </Card>
       ) : (
-        <Card className={classes.card}>
-          <CardContent className={classes.content}>
-            Select a site, compound, and date range to view chart
-          </CardContent>
-        </Card>
+        <div>
+          <br></br>Select a site, compound, and date range to view chart
+        </div>
       )}
     </div>
   )

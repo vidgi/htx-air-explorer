@@ -12,6 +12,9 @@ body {
   color: #54758c;
 }
 
+img {
+  border-radius: 25px;
+}
 a {
   text-decoration: 'none';
 }
