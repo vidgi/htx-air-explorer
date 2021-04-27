@@ -1,5 +1,7 @@
 # htx air explorer
-## visualizing air data in houston, texas
+### visualizing air data in houston, texas
+
+try it out: https://htx-air-explorer.web.app/
 
 ### Domain Description
 Houston is the hub of chemical manufacturing and energy production in the nation
@@ -22,11 +24,7 @@ monitoring sites. The data format is a .csv file that spans data from 2020 with 
 - Core Dataset: https://www.kinderudp.org/#/datasetCatalog/qrrmeybylzpq
 - Chemical Compound Data: https://pubchem.ncbi.nlm.nih.gov/
 
-![Site Analyzer](https://user-images.githubusercontent.com/28833281/116189988-711c3280-a6ef-11eb-91e7-38e621000db7.png)
-
-![Data Viewer](https://user-images.githubusercontent.com/28833281/116190264-ee47a780-a6ef-11eb-96fe-15c70819903d.png)
-
-## More Data
+### More Data
 - AirNow: https://docs.airnowapi.org/
 - TCEQ AQI: https://www.tceq.texas.gov/cgi-bin/compliance/monops/aqi_rpt.pl
 - TCEQ AutoGC:
