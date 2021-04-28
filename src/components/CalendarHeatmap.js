@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Grid } from '@material-ui/core'
 import { motion } from 'framer-motion'
 import { makeStyles } from '@material-ui/core/styles'
-import { SiteDropdown, CompoundDropdown, DateSelector, ChartDisplay } from './'
+import { SiteDropdown, CompoundDropdown, CalendarDisplay } from './'
 import moment from 'moment'
 import { siteData } from './siteData'
 import { compoundData } from './compoundData'
@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-function SiteAnalyzer (props) {
+function CalendarHeatmap (props) {
   const classes = useStyles()
   const pageVariants = {
     initial: {
@@ -58,9 +58,9 @@ function SiteAnalyzer (props) {
 
   const [siteValue, setSiteValue] = useState(props.siteValue)
   const [compoundValue, setCompoundValue] = useState(props.compoundValue)
-  const [fromDateValue, setFromDateValue] = useState(new Date('2020-01-01'))
-  const [toDateValue, setToDateValue] = useState(new Date('2020-01-03'))
-  const [nivoData, setNivoData] = useState('')
+  const [fromDateValue] = useState(new Date('2020-01-01'))
+  const [toDateValue] = useState(new Date('2020-09-30'))
+  const [nivoCalendarData, setNivoCalendarData] = useState('')
 
   function checkIfInDateRange (dateStringToCheck, fromDate, toDate) {
     // Date string is in the csvdate format (not moment)
@@ -75,22 +75,37 @@ function SiteAnalyzer (props) {
     return check
   }
 
+  function getAverages (data) {
+    var sums = data.reduce(function (acc, obj) {
+      var date = obj.day.split(' ')[0]
+      if (!acc[date]) {
+        acc[date] = { sum: 0, count: 0 }
+      }
+      acc[date].sum += +obj.value
+      acc[date].count++
+      return acc
+    }, Object.create(null))
+    return Object.keys(sums).map(function (date) {
+      return { day: date, value: sums[date].sum / sums[date].count }
+    })
+  }
+
   function transformDataArrayForNivo (dataArray, compoundValue, siteValue) {
-    var transformedDataForNivo = []
+    var transformedDataForCalendar = []
 
     dataArray.forEach(element => {
-      var newArray = {
-        x: moment(element.date_time.replace(':', ' ')).format(
+      var newArray2 = {
+        day: moment(element.date_time.replace(':', ' ')).format(
           'YYYY-MM-DD HH:mm'
         ),
-        y: element.value
+        value: parseFloat(element.value)
       }
 
-      transformedDataForNivo.push(newArray)
+      transformedDataForCalendar.push(newArray2)
     })
 
-    var finalData = [{ id: 'data series', data: transformedDataForNivo }]
-    setNivoData(finalData)
+    var finalCalendarData = getAverages(transformedDataForCalendar)
+    setNivoCalendarData(finalCalendarData)
   }
 
   function filterData (
@@ -125,7 +140,7 @@ function SiteAnalyzer (props) {
 
       transformDataArrayForNivo(newFiltered, newCompoundValue, newSiteValue)
     } else {
-      setNivoData('')
+      setNivoCalendarData('')
     }
   }
 
@@ -137,16 +152,6 @@ function SiteAnalyzer (props) {
   function handleCompoundChange (newCompoundValue) {
     setCompoundValue(newCompoundValue)
     filterData(newCompoundValue, siteValue, fromDateValue, toDateValue)
-  }
-
-  function handleFromDateChange (newFromDateValue) {
-    setFromDateValue(newFromDateValue)
-    filterData(compoundValue, siteValue, newFromDateValue, toDateValue)
-  }
-
-  function handleToDateChange (newToDateValue) {
-    setToDateValue(newToDateValue)
-    filterData(compoundValue, siteValue, fromDateValue, newToDateValue)
   }
 
   return (
@@ -184,39 +189,15 @@ function SiteAnalyzer (props) {
                     onChange={handleCompoundChange}
                   />
                 </Grid>
-
-                <Grid item>
-                  From
-                  <DateSelector
-                    minDate={new Date('2020-01-01')}
-                    maxDate={new Date('2020-10-01')}
-                    value={fromDateValue}
-                    onChange={handleFromDateChange}
-                  />
-                </Grid>
-                <Grid item>
-                  To
-                  <DateSelector
-                    minDate={new Date('2020-01-01')}
-                    maxDate={new Date('2020-10-01')}
-                    value={toDateValue}
-                    onChange={handleToDateChange}
-                  />
-                </Grid>
               </Grid>
 
-              <ChartDisplay
+              <CalendarDisplay
                 title={
-                  siteValue +
-                  ' - ' +
-                  compoundValue +
-                  ' (' +
-                  moment(fromDateValue).format('l') +
-                  ' - ' +
-                  moment(toDateValue).format('l') +
-                  ')'
+                  siteValue + ' - ' + compoundValue + ' (1/1/2020-9/30/2020)'
                 }
-                data={nivoData}
+                from={moment(fromDateValue).format('YYYY-MM-DD')}
+                to={moment(toDateValue).format('YYYY-MM-DD')}
+                data={nivoCalendarData}
               />
             </div>
           ) : (
@@ -231,4 +212,4 @@ function SiteAnalyzer (props) {
   )
 }
 
-export default SiteAnalyzer
+export default CalendarHeatmap

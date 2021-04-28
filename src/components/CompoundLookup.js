@@ -297,7 +297,7 @@ function CompoundLookup (props) {
             </div>
           ) : (
             <div>
-              <img src='./loader.gif'></img>
+              <img src='./loader.gif' alt='loading animation'></img>
               <br></br>Loading data
             </div>
           )}

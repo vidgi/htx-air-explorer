@@ -7,6 +7,8 @@ import IconButton from '@material-ui/core/IconButton'
 import LogoIcon from '@material-ui/icons/Waves'
 import SiteIcon from '@material-ui/icons/Place'
 import AnalyzerIcon from '@material-ui/icons/Timeline'
+import GridIcon from '@material-ui/icons/Apps'
+
 import DataIcon from '@material-ui/icons/Storage'
 import CompoundIcon from '@material-ui/icons/MenuBook'
 
@@ -26,7 +28,8 @@ import {
   SiteOverview,
   SiteAnalyzer,
   CompoundLookup,
-  DataViewer
+  DataViewer,
+  CalendarHeatmap
 } from './'
 import { readRemoteFile } from 'react-papaparse'
 
@@ -99,6 +102,23 @@ function Navigation (props) {
             <LogoIcon />
           </ListItemIcon>
           <ListItemText primary={'htx air explorer'} />
+        </ListItem>
+
+        <ListItem
+          button
+          key={'calendar heatmap'}
+          component={Link}
+          to={'/calendar-heatmap'}
+          selected={
+            props.location.pathname === '/calendar-heatmap'
+              ? selectedIndex === 1
+              : selectedIndex === 0
+          }
+        >
+          <ListItemIcon>
+            <GridIcon />
+          </ListItemIcon>
+          <ListItemText primary={'calendar heatmap'} />
         </ListItem>
 
         <ListItem
@@ -258,6 +278,13 @@ function Navigation (props) {
               exact
               component={() => (
                 <SiteAnalyzer rows={rows} siteValue='' compoundValue='' />
+              )}
+            />
+            <Route
+              path='/calendar-heatmap'
+              exact
+              component={() => (
+                <CalendarHeatmap rows={rows} siteValue='' compoundValue='' />
               )}
             />
             <Route

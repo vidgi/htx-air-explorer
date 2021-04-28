@@ -64,7 +64,7 @@ function DataViewer (props) {
   const [siteValue, setSiteValue] = useState(props.siteValue)
   const [compoundValue, setCompoundValue] = useState(props.compoundValue)
   const [fromDateValue, setFromDateValue] = useState(new Date('2020-01-01'))
-  const [toDateValue, setToDateValue] = useState(new Date('2020-10-01'))
+  const [toDateValue, setToDateValue] = useState(new Date('2020-01-03'))
   const [filteredData, setFilteredData] = useState('')
 
   function checkIfInDateRange (dateStringToCheck, fromDate, toDate) {
@@ -234,7 +234,7 @@ function DataViewer (props) {
             </div>
           ) : (
             <div>
-              <img src='./loader.gif'></img>
+              <img src='./loader.gif' alt='loading animation'></img>
               <br></br>Loading data
             </div>
           )}
