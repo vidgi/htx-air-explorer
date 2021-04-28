@@ -8,6 +8,7 @@ import LogoIcon from '@material-ui/icons/Waves'
 import SiteIcon from '@material-ui/icons/Place'
 import AnalyzerIcon from '@material-ui/icons/Timeline'
 import GridIcon from '@material-ui/icons/Apps'
+import StreamIcon from '@material-ui/icons/CloudQueue'
 
 import DataIcon from '@material-ui/icons/Storage'
 import CompoundIcon from '@material-ui/icons/MenuBook'
@@ -30,7 +31,8 @@ import {
   DataPlot,
   CompoundLookup,
   DataViewer,
-  CalendarHeatmap
+  CalendarHeatmap,
+  SiteStream
 } from './'
 import { readRemoteFile } from 'react-papaparse'
 
@@ -107,6 +109,22 @@ function Navigation (props) {
         <Divider />
         <ListItem
           button
+          key={'site stream'}
+          component={Link}
+          to={'/site-stream'}
+          selected={
+            props.location.pathname === '/site-stream'
+              ? selectedIndex === 1
+              : selectedIndex === 0
+          }
+        >
+          <ListItemIcon>
+            <StreamIcon />
+          </ListItemIcon>
+          <ListItemText primary={'site stream'} />
+        </ListItem>
+        <ListItem
+          button
           key={'calendar heatmap'}
           component={Link}
           to={'/calendar-heatmap'}
@@ -138,7 +156,6 @@ function Navigation (props) {
           </ListItemIcon>
           <ListItemText primary={'data plot'} />
         </ListItem>
-        <Divider />
 
         <ListItem
           button
@@ -156,6 +173,8 @@ function Navigation (props) {
           </ListItemIcon>
           <ListItemText primary={'data viewer'} />
         </ListItem>
+        <Divider />
+
         <ListItem
           button
           key={'site overview'}
@@ -289,6 +308,11 @@ function Navigation (props) {
               component={() => (
                 <CalendarHeatmap rows={rows} siteValue='' compoundValue='' />
               )}
+            />
+            <Route
+              path='/site-stream'
+              exact
+              component={() => <SiteStream rows={rows} compoundValue='' />}
             />
             <Route
               path='/data-viewer'

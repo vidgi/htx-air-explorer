@@ -86,7 +86,7 @@ export default function ChartDisplay (props) {
         </Card>
       ) : (
         <div>
-          <br></br>Select a site, compound, and date range to view chart
+          <br></br>Select a site, compound, and date range to view plot
         </div>
       )}
     </div>

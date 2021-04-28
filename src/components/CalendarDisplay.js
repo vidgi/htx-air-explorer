@@ -62,7 +62,7 @@ export default function CalendarDisplay (props) {
         </Card>
       ) : (
         <div>
-          <br></br>Select a site and compound to view calendar heatmap.
+          <br></br>Select a site and compound to view calendar heatmap
         </div>
       )}
     </div>
