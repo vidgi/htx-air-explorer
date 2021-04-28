@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-function SiteAnalyzer (props) {
+function DataPlot (props) {
   const classes = useStyles()
   const pageVariants = {
     initial: {
@@ -231,4 +231,4 @@ function SiteAnalyzer (props) {
   )
 }
 
-export default SiteAnalyzer
+export default DataPlot

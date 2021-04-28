@@ -39,7 +39,7 @@ export default function CalendarDisplay (props) {
                   emptyColor='#eeeeee'
                   colors={['#61cdbb', '#97e3d5', '#e8c1a0', '#f47560']}
                   minValue={0}
-                  // margin={{ top: 40, right: 40, bottom: 40, left: 40 }}
+                  margin={{ right: 50, left: 50 }}
                   monthBorderColor='#ffffff'
                   dayBorderWidth={2}
                   dayBorderColor='#ffffff'
@@ -61,7 +61,9 @@ export default function CalendarDisplay (props) {
           </CardContent>
         </Card>
       ) : (
-        <div></div>
+        <div>
+          <br></br>Select a site and compound to view calendar heatmap.
+        </div>
       )}
     </div>
   )

@@ -34,12 +34,14 @@ export default function ChartDisplay (props) {
                 <ResponsiveLine
                   data={props.data}
                   curve='monotoneX'
+                  utc
                   colors={{ scheme: 'set2' }}
                   margin={{ top: 50, right: 20, bottom: 60, left: 60 }}
                   xScale={{
                     type: 'time',
                     format: '%Y-%m-%d %H:%M',
-                    precision: 'hour'
+                    precision: 'hour',
+                    useUTC: false
                   }}
                   xFormat='time:%m/%d/%Y %H:%M'
                   yScale={{

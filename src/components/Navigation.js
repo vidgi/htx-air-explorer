@@ -11,6 +11,7 @@ import GridIcon from '@material-ui/icons/Apps'
 
 import DataIcon from '@material-ui/icons/Storage'
 import CompoundIcon from '@material-ui/icons/MenuBook'
+import Divider from '@material-ui/core/Divider'
 
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -26,7 +27,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import {
   Home,
   SiteOverview,
-  SiteAnalyzer,
+  DataPlot,
   CompoundLookup,
   DataViewer,
   CalendarHeatmap
@@ -103,7 +104,7 @@ function Navigation (props) {
           </ListItemIcon>
           <ListItemText primary={'htx air explorer'} />
         </ListItem>
-
+        <Divider />
         <ListItem
           button
           key={'calendar heatmap'}
@@ -123,11 +124,11 @@ function Navigation (props) {
 
         <ListItem
           button
-          key={'site analyzer'}
+          key={'data plot'}
           component={Link}
-          to={'/site-analyzer'}
+          to={'/data-plot'}
           selected={
-            props.location.pathname === '/site-analyzer'
+            props.location.pathname === '/data-plot'
               ? selectedIndex === 1
               : selectedIndex === 0
           }
@@ -135,8 +136,10 @@ function Navigation (props) {
           <ListItemIcon>
             <AnalyzerIcon />
           </ListItemIcon>
-          <ListItemText primary={'site analyzer'} />
+          <ListItemText primary={'data plot'} />
         </ListItem>
+        <Divider />
+
         <ListItem
           button
           key={'data viewer'}
@@ -274,10 +277,10 @@ function Navigation (props) {
               component={() => <SiteOverview rows={rows} siteValue='' />}
             />
             <Route
-              path='/site-analyzer'
+              path='/data-plot'
               exact
               component={() => (
-                <SiteAnalyzer rows={rows} siteValue='' compoundValue='' />
+                <DataPlot rows={rows} siteValue='' compoundValue='' />
               )}
             />
             <Route
