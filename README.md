@@ -10,3 +10,7 @@ This tool uses various views to help illustrate the measurements in visual forma
 ### Dataset Sources
 - Core Dataset: https://www.kinderudp.org/#/datasetCatalog/qrrmeybylzpq
 - Chemical Compound Data: https://pubchem.ncbi.nlm.nih.gov/
+
+![Screen Shot 2021-04-29 at 2 52 58 AM](https://user-images.githubusercontent.com/28833281/116630025-229dac80-a918-11eb-8141-e50a027e00a3.png)
+![Screen Shot 2021-04-29 at 3 11 04 AM](https://user-images.githubusercontent.com/28833281/116630039-26c9ca00-a918-11eb-8c86-295ee8f6c10a.png)
+![Screen Shot 2021-04-29 at 6 26 41 PM](https://user-images.githubusercontent.com/28833281/116630199-73ada080-a918-11eb-9c1e-cf859fae826a.png)
