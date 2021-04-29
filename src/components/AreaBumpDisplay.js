@@ -28,7 +28,9 @@ export default function AreaBumpDisplay (props) {
       {props.data &&
       props.compound !== 'n-Undecane' &&
       props.compound !== '1,2,3-Trimethylbenzene' &&
-      props.compound !== '1,2,4-Trimethylbenzene' ? (
+      props.compound !== '1,2,4-Trimethylbenzene' &&
+      props.compound !== '2-Methyl-2-Butene' &&
+      props.compound !== '2-Methylpentane' ? (
         <Card className={classes.card}>
           <CardContent className={classes.content}>
             <div>
@@ -57,7 +59,9 @@ export default function AreaBumpDisplay (props) {
         <div>
           {props.compound !== 'n-Undecane' &&
           props.compound !== '1,2,3-Trimethylbenzene' &&
-          props.compound !== '1,2,4-Trimethylbenzene' ? (
+          props.compound !== '1,2,4-Trimethylbenzene' &&
+          props.compound !== '2-Methyl-2-Butene' &&
+          props.compound !== '2-Methylpentane' ? (
             <div>
               <br></br>Select a compound to view site stream
             </div>
