@@ -199,6 +199,7 @@ function CompoundLookup (props) {
                               compoundDataArray.pubchem_cid
                             }
                             target='_blank'
+                            rel='noopener'
                           >
                             PubChem
                           </Button>

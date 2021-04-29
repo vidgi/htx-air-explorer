@@ -45,10 +45,10 @@ export default function CalendarDisplay (props) {
                   dayBorderColor='#ffffff'
                   legends={[
                     {
-                      anchor: 'bottom-right',
+                      anchor: 'bottom-left',
                       direction: 'row',
-                      translateY: 36,
-                      itemCount: 4,
+                      translateY: -30,
+                      itemCount: 5,
                       itemWidth: 42,
                       itemHeight: 36,
                       itemsSpacing: 14,
